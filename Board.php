@@ -8,9 +8,6 @@ require 'Cell.php';
  */
 class Board
 {
-    const SQUARE_WIDTH  = 10;
-    const SQUARE_HEIGHT = 10;
-
     protected $_boardWidth;
     protected $_boardHeight;
 
@@ -39,13 +36,17 @@ class Board
     public function getHtml()
     {
         $html = '';
+        $html.= '<div id="board-container">';
         for ($y = 0; $y < $this->_boardHeight; $y++){
+            $html.= '<div class="row-item">';
             for ($x = 0; $x < $this->_boardWidth; $x++){
                 /** @var Cell $cell */
                 $cell = $this->_boardArray[$x][$y];
-                $html.= '<div></div>';
+                $html.= "<div class='square-item' id='cell-$x-$y'></div>";
             }
+            $html.= '</div>';
         }
+        $html.= '</div>';
         return $html;
     }
 }

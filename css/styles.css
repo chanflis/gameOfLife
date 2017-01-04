@@ -1,0 +1,14 @@
+.square-item{
+    background-color: #f5ffc1;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.row-item{
+    display: block;
+    margin: -4px;
+}
