@@ -14,10 +14,12 @@ class Cell
     private $_status;
     private $_newStatus;
     private $_neighbors;
+    private $_aliveNeighbors;
 
     public function __construct()
     {
-        $this->_status = self::CELL_STATUS_DEAD;
+        $this->_status    = self::CELL_STATUS_DEAD;
+        $this->_newStatus = self::CELL_STATUS_DEAD;
     }
 
     public function kill()
@@ -59,5 +61,35 @@ class Cell
     {
         return $this->_neighbors;
     }
+
+    public function setNeighbors($neighbors)
+    {
+        $this->_neighbors = $neighbors;
+    }
+
+    public function getAliveNeighbors()
+    {
+        return $this->_aliveNeighbors ? $this->_aliveNeighbors  : 0;
+    }
+
+    public function setAliveNeighbors($neighbors)
+    {
+        $this->_aliveNeighbors = $neighbors;
+    }
+
+    public function evaluate()
+    {
+        if ($this->_aliveNeighbors < 2)
+            $this->kill();
+        else if($this->_aliveNeighbors > 3)
+            $this->kill();
+        else if ($this->_aliveNeighbors == 3)
+            $this->born();
+        else if ($this->_aliveNeighbors == 2)
+            $this->setNewStatus($this->getStatus());
+    }
+
+
+
 
 }

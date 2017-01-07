@@ -9,19 +9,15 @@ if(isset($_POST['activeCells'])){
     foreach ($activeCells as $cell){
         $data[$cell[0]][$cell[1]] = 1;
     }
-    var_dump($data);
 
-    $board  = new Board(10,10,$data);
+    $board  = new Board(null,null,$data);
 
-}
+    $board->evaluateTurn();
 
-/**
- * Created by PhpStorm.
- * User: sgonzalez
- * Date: 6/01/17
- * Time: 04:36 PM
- */
-class Ajax
-{
+    $response = array();
+    $response['status'] = 1;
+    $response['board']  = $board->getHtml();
+
+    echo json_encode($response);
 
 }

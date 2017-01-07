@@ -1,7 +1,7 @@
 $board = $('#board-container');
 $cells = $('.square-item');
 
-$cells.on('click',function () {
+$(document).on('click', ".square-item", function () {
     var $square  = $(this);
 
     $square.toggleClass('active');
@@ -35,9 +35,11 @@ function postCells() {
     $.ajax({
         url: 'Ajax.php',
         data: {'activeCells':activeCells},
-        dataType: 'jsonp',
+        dataType: 'json',
         success: function(data) {
-            alert('success');
+            if(data.status){
+                $board.html(data.board);
+            }
         },
         type: 'POST'
     });

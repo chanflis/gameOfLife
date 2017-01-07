@@ -8,15 +8,15 @@ require 'Cell.php';
  */
 class Board
 {
-    protected $_boardWidth;
-    protected $_boardHeight;
+    protected $_boardWidth  = 20;
+    protected $_boardHeight = 20;
 
     protected $_boardArray;
 
-    public function __construct($width,$height, $data = null)
+    public function __construct($width = null,$height = null, $data = null)
     {
-        $this->_boardWidth  = $width;
-        $this->_boardHeight = $height;
+        if (!is_null($width)) $this->_boardWidth = $width;
+        if (!is_null($height)) $this->_boardHeight = $height;
 
         $this->_boardArray = array();
 
@@ -41,7 +41,10 @@ class Board
     {
         for ($y = 0; $y < $this->_boardHeight; $y++){
             for ($x = 0; $x < $this->_boardWidth; $x++){
+                /** @var Cell $cell */
                 $cell = $this->_boardArray[$x][$y];
+                $cell->setAliveNeighbors($this->getAliveNeighbors($x,$y));
+                $cell->evaluate();
             }
         }
     }
@@ -70,6 +73,30 @@ class Board
         return $neighbors;
     }
 
+    public function getAliveNeighbors($x,$y)
+    {
+        $neighborsAliveCount = 0;
+
+        if (isset($this->_boardArray[$x-1][$y])   && $this->_boardArray[$x-1][$y]->getStatus()   == Cell::CELL_STATUS_LIVE)
+            $neighborsAliveCount++;
+        if (isset($this->_boardArray[$x-1][$y-1]) && $this->_boardArray[$x-1][$y-1]->getStatus() == Cell::CELL_STATUS_LIVE)
+            $neighborsAliveCount++;
+        if (isset($this->_boardArray[$x][$y-1])   && $this->_boardArray[$x][$y-1]->getStatus()   == Cell::CELL_STATUS_LIVE)
+            $neighborsAliveCount++;
+        if (isset($this->_boardArray[$x+1][$y])   && $this->_boardArray[$x+1][$y]->getStatus()   == Cell::CELL_STATUS_LIVE)
+            $neighborsAliveCount++;
+        if (isset($this->_boardArray[$x+1][$y+1]) && $this->_boardArray[$x+1][$y+1]->getStatus() == Cell::CELL_STATUS_LIVE)
+            $neighborsAliveCount++;
+        if (isset($this->_boardArray[$x][$y+1])   && $this->_boardArray[$x][$y+1]->getStatus()   == Cell::CELL_STATUS_LIVE)
+            $neighborsAliveCount++;
+        if (isset($this->_boardArray[$x-1][$y+1]) && $this->_boardArray[$x-1][$y+1]->getStatus() == Cell::CELL_STATUS_LIVE)
+            $neighborsAliveCount++;
+        if (isset($this->_boardArray[$x+1][$y-1]) && $this->_boardArray[$x+1][$y-1]->getStatus() == Cell::CELL_STATUS_LIVE)
+            $neighborsAliveCount++;
+
+        return $neighborsAliveCount;
+    }
+
     public function getHtml()
     {
         $html = '';
@@ -79,7 +106,8 @@ class Board
             for ($x = 0; $x < $this->_boardWidth; $x++){
                 /** @var Cell $cell */
                 $cell = $this->_boardArray[$x][$y];
-                $html.= "<div class='square-item' id='$x-$y'></div>";
+                $active = $cell->getNewStatus() ? 'active' : '';
+                $html.= "<div class='square-item $active' id='$x-$y'></div>";
             }
             $html.= '</div>';
         }

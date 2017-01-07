@@ -3,11 +3,7 @@ require 'Render.php';
 require 'Board.php';
 
 $render = new Render();
-$board  = new Board(10,10);
-
-var_dump($board->getNeighbors(0,1));
-
-return;
+$board  = new Board();
 
 $render->appendHead('<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>');
 $render->appendHead('<link rel="stylesheet" href="css/styles.css" type="text/css">');
