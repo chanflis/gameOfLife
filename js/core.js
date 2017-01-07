@@ -1,20 +1,19 @@
 $board = $('#board-container');
 $cells = $('.square-item');
 
+var playGameStatus = 0;
+setInterval(autoPlay,500);
+
 $(document).on('click', ".square-item", function () {
     var $square  = $(this);
 
     $square.toggleClass('active');
-    console.log(getCoordinate($square));
+    //console.log(getCoordinate($square));
 
 });
 
 var getCoordinate = function($square){
     return $square.attr('id').split('-');
-};
-
-var runGame = function () {
-    postCells();
 };
 
 function getActiveCells() {
@@ -29,7 +28,7 @@ function getActiveCells() {
     return activeCells;
 }
 
-function postCells() {
+function postBoard() {
     var activeCells = JSON.stringify(getActiveCells());
 
     $.ajax({
@@ -43,5 +42,23 @@ function postCells() {
         },
         type: 'POST'
     });
+}
+
+function runGame() {
+    playGameStatus = 1;
+}
+
+function pauseGame() {
+    playGameStatus = 0;
+}
+
+function nextMove() {
+    postBoard();
+}
+
+function autoPlay() {
+    if (playGameStatus){
+        postBoard();
+    }
 }
 

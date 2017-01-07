@@ -15,7 +15,7 @@ class Board
 
     public function __construct($width = null,$height = null, $data = null)
     {
-        if (!is_null($width)) $this->_boardWidth = $width;
+        if (!is_null($width)) $this->_boardWidth   = $width;
         if (!is_null($height)) $this->_boardHeight = $height;
 
         $this->_boardArray = array();
