@@ -8,6 +8,10 @@
     border-width: 1px;
 }
 
+.square-item.active{
+    background-color: #ff7474;
+}
+
 .row-item{
     display: block;
     margin: -4px;

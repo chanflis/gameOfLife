@@ -40,6 +40,16 @@ class Cell
         return $this->_newStatus;
     }
 
+    public function setStatus($status)
+    {
+        $this->_status = $status;
+    }
+
+    public function setNewStatus($newStatus)
+    {
+        $this->_newStatus = $newStatus;
+    }
+
     public function statusHasChanged()
     {
         return $this->_status != $this->_newStatus;
